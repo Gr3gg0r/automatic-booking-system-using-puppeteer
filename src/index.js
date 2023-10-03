@@ -1,5 +1,4 @@
 require("dotenv").config();
-const schedule = require("node-schedule");
 const config = require("./config");
 const bookCourt = require("./services/bookCourt");
 const login = require("./services/login");
