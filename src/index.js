@@ -13,11 +13,7 @@ const bookJob = async () => {
   return Promise.resolve();
 };
 
-const job = schedule.scheduleJob("03 00 * * 0,2,5", () => {
-  bookJob().catch((e) => {
-    console.log(e);
-  });
-});
+bookJob().catch((e) => console.error(e));
 
 // Handle uncaught exceptions to prevent app termination
 process.on("uncaughtException", (err) => {
@@ -29,4 +25,4 @@ process.on("unhandledRejection", (reason, promise) => {
   console.error("Unhandled promise rejection:", reason);
 });
 
-console.log("Scheduler started.");
+console.log("Booking started.");
