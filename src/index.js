@@ -1,23 +1,22 @@
 require("dotenv").config();
-const express = require("express");
-const app = express();
+const puppeteer = require("puppeteer");
+const config = require("./config");
+const dayjs = require("dayjs");
+const bookCourt = require("./services/bookCourt");
+const login = require("./services/login");
 
-const controllers = require("./controllers");
+const job = async () => {
+  try {
+    const cookies = await login(config.email, config.password);
+    const radioValues = config.radioValue;
+    for (const value of radioValues) {
+      await bookCourt(cookies, value.id, value.value);
+    }
+  } catch (e) {
+    throw Error(e);
+  }
+};
 
-app.get("/api", (_, res) => {
-  return res.send({
-    msg: "Api healthy",
-  });
-});
+job();
 
-app.get("/api/book", controllers.get);
 
-app.use((err, _, res, __) => {
-  return res.status(500).send({
-    error: err.message,
-    err,
-  });
-});
-app.listen(3000, () => {
-  console.log("Apps is running on port 3000");
-});
