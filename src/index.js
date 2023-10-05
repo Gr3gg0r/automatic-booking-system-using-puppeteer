@@ -21,7 +21,7 @@ const bookJob = async () => {
   return Promise.resolve();
 };
 
-schedule.scheduleJob("25 01 * * 0,2,5", () => {
+schedule.scheduleJob("50 01 * * 0,2,5", () => {
   bookJob().catch((e) => {
     console.log(e);
   });
