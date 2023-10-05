@@ -1,9 +1,16 @@
 require("dotenv").config();
+const dayjs = require("dayjs");
 const config = require("./config");
 const bookCourt = require("./services/bookCourt");
 const login = require("./services/login");
 
 const bookJob = async () => {
+  const unskip = dayjs().add(9, "d").day();
+
+  if (![1, 3, 5].includes(unskip)) {
+    return Promise.all();
+  }
+
   const cookies = await login(config.email, config.password);
   const radioValues = config.radioValue;
   for (const value of radioValues) {
