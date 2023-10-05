@@ -1,3 +1,4 @@
+#!/usr/bin/node
 require("dotenv").config();
 const dayjs = require("dayjs");
 const config = require("./config");
@@ -27,7 +28,6 @@ schedule.scheduleJob("25 01 * * 0,2,5", () => {
 });
 
 // bookJob().catch((e) => console.error(e));
-
 
 // Handle uncaught exceptions to prevent app termination
 process.on("uncaughtException", (err) => {
