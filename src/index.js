@@ -8,8 +8,8 @@ const schedule = require("node-schedule");
 const bookJob = async () => {
   const unskip = dayjs().add(9, "d").day();
 
-  if (![1, 3, 5].includes(unskip)) {
-    return Promise.all();
+  if (![1, 3, 5, 0].includes(unskip)) {
+    return Promise.resolve();
   }
 
   const cookies = await login(config.email, config.password);
@@ -20,7 +20,7 @@ const bookJob = async () => {
   return Promise.resolve();
 };
 
-schedule.scheduleJob("59 00 * * 0,2,5", () => {
+schedule.scheduleJob("25 01 * * 0,2,5", () => {
   bookJob().catch((e) => {
     console.log(e);
   });
