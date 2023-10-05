@@ -7,9 +7,11 @@ const login = require("./services/login");
 const schedule = require("node-schedule");
 
 const bookJob = async () => {
-  const unskip = dayjs().add(9, "d").day();
+  await new Promise((resolve) => setTimeout(resolve, 5000));
 
-  if (![1, 3, 5, 0].includes(unskip)) {
+  const unskip = dayjs().add(10, "d").day();
+
+  if (![1, 3, 5].includes(unskip)) {
     return Promise.resolve();
   }
 
@@ -21,7 +23,7 @@ const bookJob = async () => {
   return Promise.resolve();
 };
 
-schedule.scheduleJob("50 01 * * 0,2,5", () => {
+schedule.scheduleJob("00 00 * * 0,2,5", () => {
   bookJob().catch((e) => {
     console.log(e);
   });

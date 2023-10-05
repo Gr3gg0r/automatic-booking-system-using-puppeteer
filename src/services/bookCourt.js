@@ -3,7 +3,7 @@ const config = require("../config");
 const dayjs = require("dayjs");
 
 const get10DaysFromNow = () => {
-  return dayjs().add(9, "d").format("YYYY-MM-DD");
+  return dayjs().add(10, "d").format("YYYY-MM-DD");
 };
 
 module.exports = async (cookies, radioId, radioVal) => {
