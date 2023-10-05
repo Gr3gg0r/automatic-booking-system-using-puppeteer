@@ -1,10 +1,11 @@
 const puppeteer = require("puppeteer");
+const config = require("../config");
 
 module.exports = async (username, password) => {
   const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
 
-  await page.goto("https://www.ecommunity.my/sas/bms/public/index.php/login", {
+  await page.goto(config.url.authUrl, {
     waitUntil: "load",
     timeout: "0",
   });
