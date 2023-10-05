@@ -3,6 +3,7 @@ const dayjs = require("dayjs");
 const config = require("./config");
 const bookCourt = require("./services/bookCourt");
 const login = require("./services/login");
+const schedule = require("node-schedule");
 
 const bookJob = async () => {
   const unskip = dayjs().add(9, "d").day();
@@ -19,7 +20,14 @@ const bookJob = async () => {
   return Promise.resolve();
 };
 
-bookJob().catch((e) => console.error(e));
+schedule.scheduleJob("59 00 * * 0,2,5", () => {
+  bookJob().catch((e) => {
+    console.log(e);
+  });
+});
+
+// bookJob().catch((e) => console.error(e));
+
 
 // Handle uncaught exceptions to prevent app termination
 process.on("uncaughtException", (err) => {
