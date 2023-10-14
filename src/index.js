@@ -7,7 +7,7 @@ const login = require("./services/login");
 const schedule = require("node-schedule");
 
 const bookJob = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  // await new Promise((resolve) => setTimeout(resolve, 1000));
 
   const unskip = dayjs().add(10, "d").day();
 
@@ -17,19 +17,29 @@ const bookJob = async () => {
 
   const cookies = await login(config.email, config.password);
   const radioValues = config.radioValue;
-  for (const value of radioValues) {
-    await bookCourt(cookies, value.id, value.value);
-  }
+  await Promise.all(
+    radioValues.map(async (value, i) => {
+      await bookCourt(cookies, value.id, value.value).catch((e) => {
+        console.error("failed " + (i + 1));
+        throw e;
+      });
+    })
+  );
+  // for (const value of radioValues) {
+  //       await bookCourt(cookies, value.id, value.value);
+  // }
   return Promise.resolve();
 };
 
 schedule.scheduleJob("00 00 * * 0,2,5", () => {
   bookJob().catch((e) => {
-    console.log(e);
+    const date = dayjs().toString();
+    console.error({
+      message: "Failed booking",
+      date,
+    });
   });
 });
-
-// bookJob().catch((e) => console.error(e));
 
 // Handle uncaught exceptions to prevent app termination
 process.on("uncaughtException", (err) => {
@@ -41,4 +51,4 @@ process.on("unhandledRejection", (reason, promise) => {
   console.error("Unhandled promise rejection:", reason);
 });
 
-console.log("Booking started.");
+console.log("Booking started. ", dayjs().toString());
