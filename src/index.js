@@ -2,7 +2,7 @@
 require("dotenv").config();
 const dayjs = require("dayjs");
 const config = require("./config");
-const bookCourt = require("./services/bookCourt");
+const bookItem = require("./services/bookItem");
 const login = require("./services/login");
 const schedule = require("node-schedule");
 
@@ -11,27 +11,27 @@ const bookJob = async () => {
 
   const unskip = dayjs().add(10, "d").day();
 
-  if (![1, 3, 5].includes(unskip)) {
+  if (![1, 2, 3, 4, 5].includes(unskip)) {
+    console.log("skipday");
     return Promise.resolve();
   }
 
+  console.log("Initiate login");
   const cookies = await login(config.email, config.password);
   const radioValues = config.radioValue;
+  console.log("Initiate booking");
   await Promise.all(
     radioValues.map(async (value, i) => {
-      await bookCourt(cookies, value.id, value.value).catch((e) => {
+      await bookItem(cookies, value.id, value.value).catch((e) => {
         console.error("failed " + (i + 1));
         throw e;
       });
     })
   );
-  // for (const value of radioValues) {
-  //       await bookCourt(cookies, value.id, value.value);
-  // }
   return Promise.resolve();
 };
 
-schedule.scheduleJob("00 00 * * 0,2,5", () => {
+schedule.scheduleJob("00 00 * * *", () => {
   bookJob().catch((e) => {
     const date = dayjs().toString();
     console.error({
