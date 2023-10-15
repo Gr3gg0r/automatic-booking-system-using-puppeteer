@@ -1,9 +1,9 @@
 #!/usr/bin/node
 require("dotenv").config();
 const dayjs = require("dayjs");
-const config = require("./config");
-const bookItem = require("./services/bookItem");
-const login = require("./services/login");
+const config = require("./src/config");
+const bookItem = require("./src/services/bookItem");
+const login = require("./src/services/login");
 const schedule = require("node-schedule");
 
 const bookJob = async () => {
