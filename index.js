@@ -51,4 +51,4 @@ process.on("unhandledRejection", (reason, promise) => {
   console.error("Unhandled promise rejection:", reason);
 });
 
-console.log("Booking started. ", dayjs().toString());
+console.log("Booking started. ", dayjs().add(8, "h").toString());
