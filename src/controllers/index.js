@@ -71,6 +71,8 @@ const createBook = async (req, res, next) => {
       },
     ];
 
+    const errors = [];
+
     const results = await Promise.allSettled(
       radioValues.map(async (value, i) => {
         try {
