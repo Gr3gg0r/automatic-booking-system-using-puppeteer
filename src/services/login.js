@@ -4,11 +4,7 @@ const config = require("../config");
 module.exports = async (username, password) => {
   const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
-
-  await page.goto(config.url.authUrl, {
-    waitUntil: "load",
-    timeout: "0",
-  });
+  await page.goto(config.url.authUrl);
 
   await page.type('input[name="username"]', username);
   await page.type('input[name="password"]', password);
@@ -18,11 +14,9 @@ module.exports = async (username, password) => {
     timeout: 10000,
   });
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
   const cookies = await page.cookies();
 
-  await browser.close();
+  browser.close();
 
   return cookies;
 };

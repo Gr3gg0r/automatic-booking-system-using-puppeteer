@@ -2,18 +2,26 @@ const puppeteer = require("puppeteer");
 const config = require("../config");
 const dayjs = require("dayjs");
 
-const get10DaysFromNow = () => {
-  return dayjs().add(10, "d").format("YYYY-MM-DD");
+const get10DaysFromNow = (day) => {
+  return dayjs().add(day, "d").format("YYYY-MM-DD");
 };
 
-module.exports = async (cookies, radioId, radioVal) => {
+module.exports = async (
+  cookies,
+  radioId,
+  radioVal,
+  day = 10,
+  type = "BADMINTON"
+) => {
   const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
 
   await page.setCookie(...cookies);
   console.log("success set cookies");
 
-  await page.goto(config.url.bookUrl + "/" + get10DaysFromNow() + "/BADMINTON");
+  await page.goto(
+    config.url.bookUrl + "/" + get10DaysFromNow(day) + "/" + type
+  );
 
   console.log("Success navigate to booking page");
 

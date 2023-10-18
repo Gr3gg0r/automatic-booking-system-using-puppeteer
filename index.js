@@ -7,20 +7,19 @@ const login = require("./src/services/login");
 const schedule = require("node-schedule");
 
 const bookJob = async () => {
-  // await new Promise((resolve) => setTimeout(resolve, 1000));
+  // const unskip = dayjs().add(10, "d").day();
 
-  const unskip = dayjs().add(10, "d").day();
-
-  if (![1, 2, 3, 4, 5].includes(unskip)) {
-    console.log("skipday");
-    return Promise.resolve();
-  }
+  // if (![0, 1, 2, 3, 4, 5, 6].includes(unskip)) {
+  //   console.log("skipday");
+  //   return Promise.resolve();
+  // }
 
   console.log("Initiate login");
   const cookies = await login(config.email, config.password);
   const radioValues = config.radioValue;
+  await new Promise((resolve) => setTimeout(resolve, 56000));
   console.log("Initiate booking");
-  await Promise.all(
+  await Promise.allSettled(
     radioValues.map(async (value, i) => {
       await bookItem(cookies, value.id, value.value).catch((e) => {
         console.error("failed " + (i + 1));
@@ -31,7 +30,7 @@ const bookJob = async () => {
   return Promise.resolve();
 };
 
-schedule.scheduleJob("00 00 * * *", () => {
+schedule.scheduleJob("59 23 * * *", () => {
   bookJob().catch((e) => {
     const date = dayjs().toString();
     console.error({

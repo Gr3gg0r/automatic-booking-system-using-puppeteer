@@ -5,6 +5,7 @@ const config = {
     authUrl: process.env.AUTH_URL,
     bookUrl: process.env.BOOK_URL,
     succUrl: process.env.SUCC_URL,
+    homeUrl: process.env.HOME_URL,
   },
   radioValue: [
     {
