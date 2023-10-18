@@ -11,6 +11,7 @@ app.get("/api", (_, res) => {
   return res.send({
     msg: "Api healthy",
     date: dayjs().toString(),
+    version: "0.1.0",
   });
 });
 
