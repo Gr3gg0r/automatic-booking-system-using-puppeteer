@@ -2,10 +2,7 @@ const puppeteer = require("puppeteer");
 const config = require("../config");
 
 module.exports = async (username, password) => {
-  const browser = await puppeteer.launch({
-    headless: "new",
-    args: ["--no-sandbox"],
-  });
+  const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
   await page.goto(config.url.authUrl);
 
