@@ -5,6 +5,8 @@ const app = express();
 const controllers = require("./controllers/index");
 const dayjs = require("dayjs");
 
+app.use(express.json());
+
 app.get("/api", (_, res) => {
   return res.send({
     msg: "Api healthy",
@@ -19,11 +21,10 @@ app.get("/api/refresh", controllers.getRefresh);
 app.post("/api/book", controllers.createBook);
 
 app.use((err, _, res, __) => {
-  console.error(err.stack); // Log the error
-
   return res.status(500).send({
     mssg: "Something broke!",
-    err: err,
+    err: err.message,
+    stack: err.stack,
   });
 });
 
