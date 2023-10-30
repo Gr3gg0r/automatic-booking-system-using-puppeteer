@@ -16,7 +16,7 @@ module.exports = async (username, password) => {
 
   const cookies = await page.cookies();
 
-  browser.close();
+  // browser.close();
 
-  return cookies;
+  return { cookies, browser };
 };

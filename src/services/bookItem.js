@@ -7,13 +7,14 @@ const get10DaysFromNow = (day) => {
 };
 
 module.exports = async (
+  browser,
   cookies,
   radioId,
   radioVal,
   day = 10,
   type = "BADMINTON"
 ) => {
-  const browser = await puppeteer.launch({ headless: "new" });
+  // const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
 
   await page.setCookie(...cookies);
@@ -40,15 +41,12 @@ module.exports = async (
     timeout: 10000,
   });
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
   await page.$eval('button[type="submit"]', (button) => button.click());
   console.log("Success submit reserve");
 
   await page.waitForSelector('input[name="paymentdeposit"]', {
     timeout: 10000,
   });
-  await new Promise((resolve) => setTimeout(resolve, 1000));
 
   await page.$eval('button[type="submit"]', (button) => button.click());
   console.log("Success submit booking");
@@ -57,6 +55,4 @@ module.exports = async (
     url: config.url.succUrl,
   });
   console.log("Booking success page, done booking");
-
-  await browser.close();
 };
